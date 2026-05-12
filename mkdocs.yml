@@ -1,20 +1,36 @@
-site_name: Projeto Lakehouse Seguradora
-site_description: Documentação técnica do Pipeline de Dados
+site_name: Documentação do Data Lakehouse
+site_description: Pipeline de Engenharia de Dados para o Setor de Seguros
 site_author: Bruno
+docs_dir: docs
 
 theme:
   name: material
   palette:
-    primary: indigo
-    accent: blue
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Mudar para modo escuro
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Mudar para modo claro
   features:
     - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
     - content.code.copy
-
-nav:
-  - Apresentação: index.md
-  - Arquitetura: arquitetura.md
-  - Modelo de Dados: modelo_dados.md
 
 markdown_extensions:
   - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.inlinehilite
