@@ -1,0 +1,16 @@
+# Ambientes Virtuais
+venv/
+env/
+.venv/
+
+# Arquivos compilados do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos do MkDocs (site gerado localmente)
+site/
+
+# Variáveis de ambiente e segredos (NUNCA subir pro GitHub!)
+.env

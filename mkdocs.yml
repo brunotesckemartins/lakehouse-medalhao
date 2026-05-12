@@ -1,0 +1,20 @@
+site_name: Projeto Lakehouse Seguradora
+site_description: Documentação técnica do Pipeline de Dados
+site_author: Bruno
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: blue
+  features:
+    - navigation.tabs
+    - content.code.copy
+
+nav:
+  - Apresentação: index.md
+  - Arquitetura: arquitetura.md
+  - Modelo de Dados: modelo_dados.md
+
+markdown_extensions:
+  - tables
