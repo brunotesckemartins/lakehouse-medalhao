@@ -135,9 +135,28 @@ Para reproduzir o processamento de dados e validar a arquitetura em seu próprio
 
 > **Nota Operacional:** Caso necessite reexecutar a simulação do zero ou limpar o armazenamento do cluster, execute o notebook utilitário `005_destroi_ambiente.py` para realizar o drop em cascata dos catálogos e volumes criados.
 
+## 6. Orquestração e Automação (Databricks Workflows / Jobs)
+
+Para garantir que a base de dados analítica esteja sempre atualizada sem intervenção manual, todo o pipeline ETL foi automatizado utilizando o **Databricks Workflows (Jobs)**.
+
+O Job foi configurado para orquestrar a execução sequencial dos notebooks, respeitando rigorosamente a hierarquia de dependências das camadas da Arquitetura Medalhão.
+
+### 5.1. Topologia e Execução do Workflow
+
+Abaixo está a evidência da orquestração configurada na plataforma, garantindo que uma camada só inicie seu processamento se a tarefa anterior for concluída com sucesso.
+
+![Evidência de Execução do Job no Databricks](/job-pipline.PNG)
+*Figura 1: Visão do grafo de tarefas (Task Graph) executado com sucesso no Databricks Workflows, evidenciando o encadeamento desde o preparo do ambiente até a consolidação da Camada Gold.*
+
+### 5.2. Detalhes da Configuração do Job
+* **Cluster Type:** Serverless (Otimizado para executar cargas de trabalho sob demanda instantaneamente, reduzindo a sobrecarga de gerenciamento de infraestrutura).
+* **Agendamento (Schedule):** Configurado para execução regular, garantindo a ingestão contínua de novos sinistros e apólices.
+* **Gestão de Falhas:** Em caso de falha em qualquer uma das *Tasks*, o Job interrompe a execução das tarefas subsequentes para evitar a propagação de dados corrompidos ou incompletos para as camadas Silver e Gold.
+
+
 ---
 
-## 6. Referências e Base de Conhecimento
+## 7. Referências e Base de Conhecimento
 
 * [Documentação Oficial do Databricks](https://docs.databricks.com/)
 * [Arquitetura Medalhão (Medallion Architecture) - Databricks Glossary](https://www.databricks.com/glossary/medallion-architecture)
