@@ -41,12 +41,12 @@ erDiagram
 
     dim_cliente {
         BIGINT SK_CLIENTE PK
-        INT CODIGO_CLIENTE NK
+        INT CODIGO_CLIENTE "NK"
     }
 
     dim_carro {
         BIGINT SK_CARRO PK
-        VARCHAR PLACA NK
+        VARCHAR PLACA "NK"
     }
 
     dim_localidade {
@@ -55,7 +55,7 @@ erDiagram
 
     dim_tempo {
         BIGINT SK_TEMPO PK
-        DATE DATA_COMPLETA NK
+        DATE DATA_COMPLETA "NK"
     }
 ```
 
