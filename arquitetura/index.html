@@ -27,7 +27,7 @@
     
     
       
-        <title>Arquitetura do Sistema - Documentação do Data Lakehouse</title>
+        <title>Arquitetura do Sistema: O Paradigma Medalhão - Documentação do Data Lakehouse</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#arquitetura-do-sistema" class="md-skip">
+        <a href="#arquitetura-do-sistema-o-paradigma-medalhao" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Arquitetura do Sistema
+              Arquitetura do Sistema: O Paradigma Medalhão
             
           </span>
         </div>
@@ -238,7 +238,7 @@
   
     
   
-  Arquitetura do Sistema
+  Arquitetura do Sistema: O Paradigma Medalhão
 
       </a>
     </li>
@@ -349,7 +349,7 @@
   <span class="md-ellipsis">
     
   
-    Arquitetura do Sistema
+    Arquitetura do Sistema: O Paradigma Medalhão
   
 
     
@@ -367,7 +367,7 @@
   <span class="md-ellipsis">
     
   
-    Arquitetura do Sistema
+    Arquitetura do Sistema: O Paradigma Medalhão
   
 
     
@@ -393,22 +393,50 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-topologia-das-camadas" class="md-nav__link">
+  <a href="#1-topologia-do-pipeline-de-dados" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Topologia das Camadas
+        1. Topologia do Pipeline de Dados
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="1. Topologia das Camadas">
+    <nav class="md-nav" aria-label="1. Topologia do Pipeline de Dados">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#11-landing-zone-zona-de-pouso" class="md-nav__link">
+  <a href="#diagrama-logico-de-camadas" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.1. Landing Zone (Zona de Pouso)
+        Diagrama Lógico de Camadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-detalhamento-dos-estagios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Detalhamento dos Estágios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Detalhamento dos Estágios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-landing-zone-zona-de-pouso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Landing Zone (Zona de Pouso)
       
     </span>
   </a>
@@ -416,10 +444,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#12-camada-bronze-raw-data" class="md-nav__link">
+  <a href="#22-camada-bronze-raw-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.2. Camada Bronze (Raw Data)
+        2.2. Camada Bronze (Raw Data)
       
     </span>
   </a>
@@ -427,10 +455,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#13-camada-silver-cleansed-data" class="md-nav__link">
+  <a href="#23-camada-silver-cleansed-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.3. Camada Silver (Cleansed Data)
+        2.3. Camada Silver (Cleansed Data)
       
     </span>
   </a>
@@ -438,10 +466,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#14-camada-gold-curated-data" class="md-nav__link">
+  <a href="#24-camada-gold-curated-data" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1.4. Camada Gold (Curated Data)
+        2.4. Camada Gold (Curated Data)
       
     </span>
   </a>
@@ -505,40 +533,81 @@
 
 
 
-<h1 id="arquitetura-do-sistema">Arquitetura do Sistema</h1>
-<p>A arquitetura lógica do projeto segue a <strong>Medallion Architecture</strong> (Arquitetura Medalhão), um padrão de design de dados que organiza de forma lógica os dados em um Lakehouse, com o objetivo de melhorar incrementalmente e progressivamente a estrutura e a qualidade dos dados à medida que fluem através de cada camada.</p>
-<h2 id="1-topologia-das-camadas">1. Topologia das Camadas</h2>
-<p>O pipeline de dados (ETL) foi estruturado em quatro estágios sequenciais e interdependentes:</p>
-<h3 id="11-landing-zone-zona-de-pouso">1.1. Landing Zone (Zona de Pouso)</h3>
+<h1 id="arquitetura-do-sistema-o-paradigma-medalhao">Arquitetura do Sistema: O Paradigma Medalhão</h1>
+<p>A arquitetura lógica deste projeto foi estruturada com base na <strong>Medallion Architecture</strong> (Arquitetura Medalhão). Trata-se de um padrão de design de dados amplamente adotado no ecossistema Lakehouse, cujo objetivo primário é melhorar a estrutura e a qualidade dos dados de forma incremental e progressiva à medida que fluem através de camadas de processamento.</p>
+<div class="admonition abstract">
+<p class="admonition-title">Filosofia da Arquitetura</p>
+<p>A premissa fundamental da Arquitetura Medalhão é a separação de responsabilidades. Em vez de tentar extrair, limpar e modelar os dados em uma única etapa monolítica (o que dificulta a depuração e a governança), o fluxo é dividido em estágios granulares. Isso garante rastreabilidade total: se uma inconsistência for detectada nos relatórios finais, o engenheiro pode rastrear a linhagem do dado de volta até sua forma original.</p>
+</div>
+<hr />
+<h2 id="1-topologia-do-pipeline-de-dados">1. Topologia do Pipeline de Dados</h2>
+<p>O fluxo de Extração, Carga e Transformação (ELT) foi segmentado em quatro estágios sequenciais e interdependentes.</p>
+<h3 id="diagrama-logico-de-camadas">Diagrama Lógico de Camadas</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>graph LR
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    subgraph Sistema de Origem
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        A[(PostgreSQL)]
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    end
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    subgraph Databricks Lakehouse
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        B[Landing Zone&lt;br&gt;CSV / Buffer] --&gt;|Ingestão| C[(Camada Bronze&lt;br&gt;Raw / History)]
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        C --&gt;|Limpeza e Tipagem| D[(Camada Silver&lt;br&gt;Cleansed / Enriched)]
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        D --&gt;|Modelagem Dimensional| E[(Camada Gold&lt;br&gt;Curated / Star Schema)]
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    end
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    A -.-&gt;|JDBC| B
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    style A fill:#316192,stroke:#333,stroke-width:2px,color:#fff
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    style B fill:#555,stroke:#333,stroke-width:2px,color:#fff
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    style C fill:#cd7f32,stroke:#333,stroke-width:2px,color:#111
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    style D fill:#c0c0c0,stroke:#333,stroke-width:2px,color:#111
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    style E fill:#ffd700,stroke:#333,stroke-width:2px,color:#111
+</span></code></pre></div>
+<hr />
+<h2 id="2-detalhamento-dos-estagios">2. Detalhamento dos Estágios</h2>
+<h3 id="21-landing-zone-zona-de-pouso">2.1. Landing Zone (Zona de Pouso)</h3>
 <ul>
-<li><strong>Objetivo:</strong> Ingestão de dados brutos provenientes do PostgreSQL com o menor impacto possível no sistema de origem.</li>
-<li><strong>Formato:</strong> Arquivos <code>CSV</code> delimitados.</li>
-<li><strong>Comportamento:</strong> Atua como um <em>buffer</em> temporário. Os dados são extraídos das 11 tabelas transacionais via conexão JDBC e gravados em Volumes nativos do Databricks sem qualquer alteração de esquema ou tipagem.</li>
+<li><strong>Objetivo:</strong> Realizar a ingestão dos dados brutos do PostgreSQL com o menor impacto de concorrência possível no banco de dados transacional (OLTP).</li>
+<li><strong>Formato de Armazenamento:</strong> Arquivos <code>.csv</code> delimitados (Volumes Nativos do Databricks).</li>
+<li><strong>Comportamento Lógico:</strong> Atua puramente como um <em>buffer</em> temporário. Os dados são extraídos das 11 tabelas transacionais via conexão JDBC e gravados no Lakehouse sem qualquer alteração de esquema, tipagem ou regra de negócio.</li>
 </ul>
-<h3 id="12-camada-bronze-raw-data">1.2. Camada Bronze (Raw Data)</h3>
+<div class="admonition tip">
+<p class="admonition-title">Desacoplamento de Carga</p>
+<p>A utilização de uma Landing Zone baseada em arquivos evita que rotinas analíticas pesadas consultem diretamente o banco de produção, protegendo a performance do sistema da seguradora contra indisponibilidades.</p>
+</div>
+<hr />
+<h3 id="22-camada-bronze-raw-data">2.2. Camada Bronze (Raw Data)</h3>
 <ul>
-<li><strong>Objetivo:</strong> Persistência do histórico e criação de uma réplica exata da fonte em um formato de alto desempenho.</li>
-<li><strong>Formato:</strong> <code>Delta</code>.</li>
-<li><strong>Comportamento:</strong> Os dados CSV são lidos, tipados primitivamente (como strings) e convertidos para o formato Delta. Esta camada é <em>append-only</em>, garantindo que nenhuma informação original seja perdida, permitindo reprocessamentos futuros caso as regras de negócio mudem na camada Silver.</li>
+<li><strong>Objetivo:</strong> Garantir a persistência do histórico e criar uma réplica exata da fonte, migrando os dados para um formato de alto desempenho.</li>
+<li><strong>Formato de Armazenamento:</strong> Tabelas <code>Delta</code>.</li>
+<li><strong>Comportamento Lógico:</strong> Os dados CSV são lidos em sua forma primitiva e convertidos para o Delta Lake. </li>
 </ul>
-<h3 id="13-camada-silver-cleansed-data">1.3. Camada Silver (Cleansed Data)</h3>
+<div class="admonition warning">
+<p class="admonition-title">Princípio da Imutabilidade</p>
+<p>A camada Bronze opera estritamente no modelo <em>append-only</em> (apenas inserção). Nenhuma informação original é descartada ou mascarada. Isso garante que, caso as regras de negócio mudem no futuro, possamos reprocessar os dados a partir do histórico fiel contido no Lakehouse, sem precisar requisitar o banco de origem novamente.</p>
+</div>
+<hr />
+<h3 id="23-camada-silver-cleansed-data">2.3. Camada Silver (Cleansed Data)</h3>
 <ul>
-<li><strong>Objetivo:</strong> Higienização, validação e padronização. Esta é a camada de consolidação ("Enterprise View").</li>
-<li><strong>Formato:</strong> <code>Delta</code>.</li>
-<li><strong>Comportamento:</strong> Aplicação de lógicas de <em>Data Quality</em>. <ul>
-<li>Tratamento de valores nulos (Null constraints).</li>
-<li>Deduplicação de registros via chaves primárias.</li>
-<li>Normalização de strings (funções <code>UPPER()</code> e <code>TRIM()</code>).</li>
-<li>Padronização de CPFs e validação de formatos de Data (<code>DATE</code>).</li>
+<li><strong>Objetivo:</strong> Higienização, validação e padronização. Esta camada representa a visão corporativa consolidada (<em>Enterprise View</em>).</li>
+<li><strong>Formato de Armazenamento:</strong> Tabelas <code>Delta</code>.</li>
+<li><strong>Comportamento Lógico:</strong> Aplicação rigorosa de lógicas de qualidade de dados (<em>Data Quality</em>). As transformações incluem:<ul>
+<li><strong>Tipagem:</strong> Conversão sistemática de <em>strings</em> para inteiros, <em>floats</em> e formatação lógica de datas (<code>DATE</code>).</li>
+<li><strong>Padronização:</strong> Normalização de textos utilizando funções como <code>UPPER()</code> e <code>TRIM()</code>, além de formatação de padrões de documentos (CPFs).</li>
+<li><strong>Tratamento de Exceções:</strong> Gestão de valores nulos (<em>Null constraints</em>) e deduplicação de registros baseada em chaves primárias e <em>timestamps</em>.</li>
 </ul>
 </li>
 </ul>
-<h3 id="14-camada-gold-curated-data">1.4. Camada Gold (Curated Data)</h3>
+<hr />
+<h3 id="24-camada-gold-curated-data">2.4. Camada Gold (Curated Data)</h3>
 <ul>
-<li><strong>Objetivo:</strong> Entrega de valor para o negócio. Modelagem dimensional otimizada para sistemas de BI e algoritmos de Machine Learning.</li>
-<li><strong>Formato:</strong> <code>Delta</code>.</li>
-<li><strong>Comportamento:</strong> Os dados normalizados da camada Silver são unidos (JOINs) e desnormalizados em um esquema Estrela (<em>Star Schema</em>). Utiliza rotinas de <code>MERGE</code> (Upsert) para garantir a atualização incremental das Tabelas Fato e Dimensão, gerenciando inserções de novos registros e atualizações de registros existentes.</li>
+<li><strong>Objetivo:</strong> Entrega direta de valor para o negócio, focando em alta performance de leitura e suporte à decisão.</li>
+<li><strong>Formato de Armazenamento:</strong> Tabelas <code>Delta</code>.</li>
+<li><strong>Comportamento Lógico:</strong> Os dados normalizados da camada Silver são cruzados (via <code>JOINs</code>) e modelados em um <strong>Esquema Estrela (Star Schema)</strong>, construindo uma arquitetura otimizada para ferramentas de BI e algoritmos de Machine Learning.</li>
 </ul>
+<div class="admonition success">
+<p class="admonition-title">Atualização Incremental com MERGE</p>
+<p>Na camada Gold, utilizamos rotinas DML avançadas com a instrução <code>MERGE</code> (Upsert). Essa técnica permite gerenciar o ciclo de vida dos dados de forma inteligente: gerencia a inserção fluida de novos clientes e sinistros, ao mesmo tempo que atualiza registros já existentes sem gerar duplicidade de informações nas Tabelas Fato e Dimensão.</p>
+</div>
 
 
 
