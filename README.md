@@ -148,7 +148,7 @@ Abaixo está a evidência da orquestração configurada na plataforma, garantind
 ![Evidência de Execução do Job no Databricks](/job-pipline.PNG)
 *Figura 1: Visão do grafo de tarefas (Task Graph) executado com sucesso no Databricks Workflows, evidenciando o encadeamento desde o preparo do ambiente até a consolidação da Camada Gold.*
 
-### 5.2. Detalhes da Configuração do Job
+### 6.2. Detalhes da Configuração do Job
 * **Cluster Type:** Serverless (Otimizado para executar cargas de trabalho sob demanda instantaneamente, reduzindo a sobrecarga de gerenciamento de infraestrutura).
 * **Agendamento (Schedule):** Configurado para execução regular, garantindo a ingestão contínua de novos sinistros e apólices.
 * **Gestão de Falhas:** Em caso de falha em qualquer uma das *Tasks*, o Job interrompe a execução das tarefas subsequentes para evitar a propagação de dados corrompidos ou incompletos para as camadas Silver e Gold.
